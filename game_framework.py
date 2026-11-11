@@ -41,18 +41,17 @@ def run(start_mode):
 
         global frame_time
         frame_time = 0.0
-        current_time = time.time()
-
+        current_time = time.perf_counter()
 
         while running:
-            # time.sleep(0.4)
             stack[-1].handle_events()
+            if not running:
+                break
             stack[-1].update()
             stack[-1].render()
-            frame_time = time.time() - current_time
-            current_time += frame_time
-            frame_rate = 1.0 / frame_time
-            
+            next_time = time.perf_counter()
+            frame_time = next_time - current_time
+            current_time = next_time
 
     finally:
         while stack:

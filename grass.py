@@ -1,9 +1,9 @@
-from pico2d import *
+from pico2d import load_image
+
 
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
-        self.ruler_image = load_image('ruler.png')
 
     def update(self):
         pass
@@ -11,6 +11,3 @@ class Grass:
     def draw(self):
         self.image.draw(400, 30)
         self.image.draw(1200, 30)
-        self.ruler_image.draw(800, 350)
-
-

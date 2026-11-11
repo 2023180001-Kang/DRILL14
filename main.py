@@ -1,9 +1,17 @@
-from pico2d import open_canvas, delay, close_canvas
+from pico2d import close_canvas, hide_lattice, open_canvas
+
 import game_framework
+import play_mode
 
-import play_mode as start_mode
 
-open_canvas(1600, 600)
-game_framework.run(start_mode)
-close_canvas()
+def main():
+    open_canvas(1600, 600, sync=True)
+    try:
+        hide_lattice()
+        game_framework.run(play_mode)
+    finally:
+        close_canvas()
 
+
+if __name__ == '__main__':
+    main()
