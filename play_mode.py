@@ -6,9 +6,11 @@ from pico2d import (
 import game_framework
 import game_world
 from bird import Bird, FRAME_COUNT
+from boy import Boy
 from grass import Grass
 
 BIRD_COUNT = 10
+boy = None
 birds = []
 
 
@@ -18,11 +20,18 @@ def handle_events():
                 (event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE)):
             game_framework.quit()
             return
+        else:
+            boy.handle_event(event)
 
 
 def init():
+    global boy
+
     game_world.clear()
     birds.clear()
+
+    boy = Boy()
+    game_world.add_oject(boy)
     game_world.add_oject(Grass(), 0)
 
     for index in range(BIRD_COUNT):
@@ -37,7 +46,7 @@ def init():
 
 
 def pause():
-    pass
+    boy.pause()
 
 
 def resume():
@@ -45,7 +54,10 @@ def resume():
 
 
 def finish():
+    global boy
+
     game_world.clear()
+    boy = None
     birds.clear()
     # 캔버스를 닫기 전에 SDL 텍스처의 마지막 참조를 해제한다.
     Bird.image = None
