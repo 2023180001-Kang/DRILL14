@@ -1,5 +1,7 @@
 from pico2d import load_image
 
+import game_framework
+
 
 SHEET_WIDTH = 918
 SHEET_HEIGHT = 506
@@ -7,6 +9,7 @@ SHEET_COLUMNS = 5
 FRAME_WIDTH = 182
 FRAME_HEIGHT = 170
 FRAME_COUNT = 14
+ANIMATION_FPS = 10.0
 DRAW_WIDTH = 100
 DRAW_HEIGHT = DRAW_WIDTH * FRAME_HEIGHT / FRAME_WIDTH
 
@@ -25,16 +28,18 @@ FRAME_RECTS = tuple(
 class Bird:
     image = None
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, frame=0):
         if Bird.image is None:
             Bird.image = load_image('bird_animation.png')
         self.x, self.y = x, y
-        self.frame = 0.0
+        self.frame = float(frame) % FRAME_COUNT
         self.draw_width = DRAW_WIDTH
         self.draw_height = DRAW_HEIGHT
 
     def update(self):
-        pass
+        self.frame = (
+            self.frame + ANIMATION_FPS * game_framework.frame_time
+        ) % FRAME_COUNT
 
     def draw(self):
         left, bottom, width, height = FRAME_RECTS[int(self.frame)]
